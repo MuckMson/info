@@ -1,23 +1,48 @@
 {
-  "name": "ПСЕВДОНИМ",
-  "about": "Разработчик. Делаю программы и игры, пишу стихи. Здесь собраны все мои проекты.",
+  "name": "MuckMson",
+  "about": "Дурачок с макбуком",
+  "subscribe": { "title": "Подписаться на стихи", "href": "https://t.me/muckpoem" },
+
+  "aboutBlock": {
+    "title": "Обо мне",
+    "text": "Меня зовут Мак (Илья). Люблю апельсины и не люблю когда в общаге ИТшник сжигает беляш. \n\n🎓 Студент СибГУТИ\n🎮 Инди разработчик\n📝 Стихописец\n🍎 Apple enjoyer"
+  },
+
+    "latest": {
+    "title": "Последний стих",
+    "textFile": "latest.txt",
+    "href": "https://t.me/muckpoem/58",
+    "date": "30.09.2026"
+  },
+
+  "projects": {
+    "title": "Проекты",
+    "items": [
+      { "name": "Панчер", "status": "cancelled", "progress": 54, "note": "" },
+      { "name": "Вот Это Ты Сморозил!", "status": "frozen", "progress": 5, "note": "Ищу время на разработку..." }
+    ]
+  },
+
   "groups": [
     {
-      "title": "Проекты",
+      "title": "Игры",
       "tiles": [
-        { "title": "Программы", "color": "prog", "href": "programs.html", "big": "Название проекта", "sub": "Последнее обновление" },
-        { "title": "Игры", "color": "game", "href": "games.html", "big": "Название игры", "sub": "Unity · в разработке" },
-        { "title": "Стихи", "color": "poem", "href": "poems.html", "wide": true, "quote": "Здесь будет строчка из последнего стихотворения…", "sub": "Новое стихотворение" },
-        { "title": "Конспекты", "color": "misc", "href": "https://github.com/ПСЕВДОНИМ/РЕПОЗИТОРИЙ", "repo": "", "wide": true, "big": "Конспекты с учёбы", "sub": "Репозиторий на GitHub" },
-        { "title": "Прочее", "color": "misc", "href": "other.html", "wide": true, "big": "Всё остальное", "sub": "Заметки, эксперименты, идеи" }
+        {
+          "title": "Mucking Games",
+          "color": "game",
+          "big": "Студия игр на Unity",
+          "sub": "Новости и разработка в Telegram",
+          "href": "https://t.me/muckinggames",
+          "wide": true
+        }
       ]
     },
     {
-      "title": "Где меня найти",
+      "title": "Связь",
       "compact": true,
       "tiles": [
-        { "title": "GitHub", "color": "link", "href": "https://github.com/ПСЕВДОНИМ", "sub": "Исходный код проектов" },
-        { "title": "Telegram", "color": "link", "href": "https://t.me/ПСЕВДОНИМ", "sub": "Канал со стихами" }
+        { "title": "Стихи", "color": "poem", "big": "@muckpoem", "sub": "Telegram-канал", "href": "https://t.me/muckpoem" },
+        { "title": "Написать мне", "color": "link", "big": "@muckmson", "sub": "Telegram", "href": "https://t.me/muckmson" }
       ]
     }
   ]

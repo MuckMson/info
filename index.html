@@ -3,16 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!-- TODO: замени ПСЕВДОНИМ на свой ник (везде в файле) -->
-<title>ПСЕВДОНИМ — программы, игры, стихи</title>
-<meta name="description" content="ПСЕВДОНИМ: личный сайт разработчика. Программы, игры на Unity, стихи и другие проекты.">
-<meta name="author" content="ПСЕВДОНИМ">
-<meta MuckMson="og:title" content="ПСЕВДОНИМ">
-<meta MuckMson="og:description" content="Программы, игры, стихи и другие проекты.">
-<meta MuckMson="og:type" content="website">
-<!-- TODO: после публикации раскомментируй и впиши адрес сайта -->
-<!-- <link rel="canonical" href="https://ПСЕВДОНИМ.github.io/"> -->
+<title>MuckMson — инфо</title>
+<meta name="description" content="MuckMson: личный сайт. Стихи, игры на Unity и студия Mucking Games.">
+<meta name="author" content="MuckMson">
+<meta property="og:title" content="MuckMson — стихи и игры">
+<meta property="og:description" content="Пишу стихи и делаю игры на Unity.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<!-- TODO после публикации: впиши полный адрес сайта в og:image, og:url и canonical -->
+<meta property="og:image" content="https://ТВОЙ-АДРЕС/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<!-- <meta property="og:url" content="https://ТВОЙ-АДРЕС/"> -->
+<!-- <link rel="canonical" href="https://ТВОЙ-АДРЕС/"> -->
 <!-- TODO: сюда же вставляется тег подтверждения из Google Search Console -->
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
@@ -24,11 +28,13 @@
     --muted: #596273;
     --line: #d5dae1;
     --accent: #1f5f5b;
-    --c-prog: #2f5fd0;
+    --on-accent: #ffffff;
     --c-game: #2a8a4a;
     --c-poem: #b5416a;
-    --c-misc: #b0701f;
     --c-link: #596273;
+    --c-live: #b0701f;    /* проект в работе */
+    --c-frozen: #2f6fd0;  /* проект заморожен */
+    --c-cancel: #c23b32;  /* проект отменён */
     --serif: "Literata", Georgia, "Times New Roman", serif;
     --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     box-sizing: border-box;
@@ -37,46 +43,74 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #0b0e11; --card: #171c21; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8;
-      --c-prog: #7aa2ff; --c-game: #6fd08c; --c-poem: #f08aae; --c-misc: #e8b56a; --c-link: #9aa4b2;
+      --bg: #0b0e11; --card: #171c21; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8; --on-accent: #0b0e11;
+      --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
+      --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #0b0e11; --card: #171c21; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8;
-    --c-prog: #7aa2ff; --c-game: #6fd08c; --c-poem: #f08aae; --c-misc: #e8b56a; --c-link: #9aa4b2;
+    --bg: #0b0e11; --card: #171c21; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8; --on-accent: #0b0e11;
+    --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
+    --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
   }
   *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
   body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 var(--sans); }
   a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
   .wrap { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1rem 2rem; }
 
-  header { padding: 0 .25rem 1.75rem; }
-  h1 { font: 600 clamp(2rem, 6vw, 2.8rem)/1.1 var(--serif); letter-spacing: -.02em; margin: 0 0 .5rem; }
-  header p { font: 400 1.1rem/1.55 var(--serif); color: var(--muted); margin: 0; max-width: 30rem; }
+  header { padding: 0 .25rem 0.1rem; }
+  h1 { font: 600 clamp(2.2rem, 7vw, 3.2rem)/1.1 var(--serif); letter-spacing: -.02em; margin: 0 0 .6rem; }
+  header p { font: 400 1.1rem/1.55 var(--serif); color: var(--muted); margin: 0 0 1.25rem; max-width: 30rem; }
+  .btn {
+    display: inline-block; padding: .7rem 1.2rem; border-radius: 999px;
+    background: var(--accent); color: var(--on-accent); font-weight: 600; text-decoration: none;
+  }
+  .btn:hover { filter: brightness(1.1); }
 
   .group { font: 600 1.15rem var(--serif); margin: 1.75rem .25rem .75rem; }
   .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
 
-  /* Плитка */
+  /* Плитка (ссылка) и карточка (без ссылки) — один и тот же вид */
+  .tile, .card {
+    background: var(--card); color: inherit; border-radius: 20px; padding: 1rem 1.1rem 1.1rem;
+  }
   .tile {
     display: flex; flex-direction: column; justify-content: space-between; gap: 1.25rem;
-    min-height: 9.5rem; padding: 1rem 1.1rem 1.1rem;
-    background: var(--card); color: inherit; text-decoration: none;
-    border-radius: 20px;
+    min-height: 9.5rem; text-decoration: none;
   }
   .tile.wide { grid-column: 1 / -1; min-height: 8rem; }
+  .tile.compact { min-height: 6.5rem; }
   .tile:hover .name::after { transform: translateX(3px); }
   .name { display: flex; align-items: center; gap: .5rem; font-weight: 600; font-size: .98rem; color: var(--c); }
   .name::before { content: ""; width: .7rem; height: .7rem; border-radius: 50%; background: var(--c); flex: none; }
-  .name::after { content: "›"; margin-left: auto; color: var(--muted); font-size: 1.3rem; line-height: 1; transition: transform .15s; }
-  .big { font: 600 1.6rem/1.15 var(--serif); letter-spacing: -.01em; }
+  .tile .name::after { content: "›"; margin-left: auto; color: var(--muted); font-size: 1.3rem; line-height: 1; transition: transform .15s; }
+  .big { font: 600 1.6rem/1.15 var(--serif); letter-spacing: -.01em; overflow-wrap: anywhere; }
   .sub { display: block; margin-top: .25rem; font-size: .88rem; color: var(--muted); }
-  .quote { font: italic 400 1.2rem/1.5 var(--serif); }
-  .prog { --c: var(--c-prog); } .game { --c: var(--c-game); } .poem { --c: var(--c-poem); } .misc { --c: var(--c-misc); } .link { --c: var(--c-link); }
+  .quote { display: block; font: italic 400 1.2rem/1.55 var(--serif); white-space: pre-line; }
+  .game { --c: var(--c-game); } .poem { --c: var(--c-poem); } .link { --c: var(--c-link); } .me { --c: var(--accent); } .proj { --c: var(--c-live); }
 
-  .tile.compact { min-height: 6.5rem; }
-  @media (prefers-reduced-motion: reduce) { .name::after { transition: none; } }
-  @media (max-width: 26rem) { .big { font-size: 1.35rem; } .tile { padding: .9rem; } }
+  /* Обо мне */
+  .card .name { margin-bottom: .75rem; }
+  .prose { font: 400 1.05rem/1.65 var(--serif); white-space: pre-line; max-width: 36rem; }
+
+  /* Проекты */
+  .projects { display: grid; gap: 1.1rem; }
+  .p-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .p-name { font: 600 1.05rem var(--serif); }
+  .p-state { font-size: .85rem; font-weight: 600; color: var(--s); white-space: nowrap; }
+  .bar { height: .5rem; margin-top: .45rem; background: var(--line); border-radius: 999px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: var(--w); background: var(--s); border-radius: 999px; }
+  .p-note { margin-top: .35rem; font-size: .88rem; color: var(--muted); }
+  .active { --s: var(--c-live); } .frozen { --s: var(--c-frozen); } .cancelled { --s: var(--c-cancel); }
+  .legend { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin-top: 1.1rem; padding-top: .9rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); }
+  .legend span::before { content: ""; display: inline-block; width: .6rem; height: .6rem; margin-right: .4rem; border-radius: 50%; background: var(--s); }
+
+  /* Музыка: сюда попадает код встраивания Apple Music */
+  .embeds iframe { display: block; width: 100% !important; max-width: 100% !important; margin: 0 0 .75rem; border: 0; border-radius: 16px !important; }
+
+  @media (prefers-reduced-motion: reduce) { .tile .name::after { transition: none; } }
+  @media (max-width: 26rem) { .big { font-size: 1.35rem; } .tile, .card { padding: .9rem; } }
 
   footer { margin: 2.5rem .25rem 0; color: var(--muted); font-size: .9rem; }
 </style>
@@ -84,18 +118,36 @@
 <body>
 <div class="wrap">
   <header>
-    <h1 id="name">ПСЕВДОНИМ</h1>
+    <h1 id="name">MuckMson</h1>
     <p id="about"></p>
   </header>
 
   <div id="app"></div>
 
   <noscript>
-    <p><a href="programs.html">Программы</a> · <a href="games.html">Игры</a> · <a href="poems.html">Стихи</a> · <a href="other.html">Прочее</a></p>
-  </noscript>
+    <p><a href="https://t.me/muckpoem">Стихи</a> · <a href="https://t.me/muckinggames">Mucking Games</a> · <a href="https://t.me/muckmson">Telegram</a></p>
+  </noscript> 
 
   <footer>© <span id="year"></span> <span id="foot-name"></span></footer>
 </div>
+
+<!--
+  МУЗЫКА. Вставь сюда код встраивания из Apple Music (в Apple Music: «⋯» у песни или альбома →
+  «Поделиться» → «Скопировать код для встраивания»). Можно вставить несколько iframe подряд.
+  Раздел «Музыка» на сайте появится сам, как только внутри будет хотя бы один iframe.
+  Пока iframe нет, раздел скрыт.
+-->
+<template id="music">
+  <!-- ВСТАВЬ КОД ВСТРАИВАНИЯ НИЖЕ -->
+<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/tr/album/dark-night-kara/1678598288?i=1678598645"></iframe>
+
+  <!-- ВСТАВЬ КОД ВСТРАИВАНИЯ ВЫШЕ -->
+</template>
+
+<!-- Аналитика без cookies. Зарегистрируйся на goatcounter.com, замени КОД и раскомментируй:
+<script data-goatcounter="https://КОД.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+-->
+
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -106,38 +158,6 @@
     return e;
   }
 
-  // «3 дня назад» и т. п.
-  function plural(n, one, few, many) {
-    var m = n % 100, d = n % 10;
-    if (m > 10 && m < 20) return many;
-    if (d === 1) return one;
-    if (d > 1 && d < 5) return few;
-    return many;
-  }
-  function ago(iso) {
-    var sec = (Date.now() - new Date(iso).getTime()) / 1000, n;
-    if (sec < 3600) { n = Math.max(1, Math.round(sec / 60)); return n + " " + plural(n, "минуту", "минуты", "минут") + " назад"; }
-    if (sec < 86400) { n = Math.round(sec / 3600); return n + " " + plural(n, "час", "часа", "часов") + " назад"; }
-    if (sec < 2592000) { n = Math.round(sec / 86400); return n + " " + plural(n, "день", "дня", "дней") + " назад"; }
-    if (sec < 31536000) { n = Math.round(sec / 2592000); return n + " " + plural(n, "месяц", "месяца", "месяцев") + " назад"; }
-    n = Math.round(sec / 31536000); return n + " " + plural(n, "год", "года", "лет") + " назад";
-  }
-
-  // Последний коммит репозитория; результат хранится 10 минут, чтобы не упереться в лимит GitHub
-  function lastCommit(repo) {
-    var key = "gh:" + repo, cached = null;
-    try { cached = JSON.parse(sessionStorage.getItem(key)); } catch (e) {}
-    if (cached && Date.now() - cached.t < 600000) return Promise.resolve(cached.v);
-    return fetch("https://api.github.com/repos/" + repo + "/commits?per_page=1")
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (list) {
-        var c = list[0].commit;
-        var v = { date: c.committer.date, msg: c.message.split("\n")[0] };
-        try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), v: v })); } catch (e) {}
-        return v;
-      });
-  }
-
   function tile(t) {
     var a = el("a", "tile " + (t.color || "link") + (t.wide ? " wide" : "") + (t.compact ? " compact" : ""));
     a.href = t.href || "#";
@@ -145,15 +165,45 @@
     var body = el("span");
     if (t.quote) body.appendChild(el("span", "quote", t.quote));
     if (t.big) body.appendChild(el("span", "big", t.big));
-    var sub = el("span", "sub", t.sub || "");
-    body.appendChild(sub);
+    if (t.sub) body.appendChild(el("span", "sub", t.sub));
     a.appendChild(body);
-    if (t.repo) {
-      lastCommit(t.repo).then(function (c) {
-        sub.textContent = "Обновлено " + ago(c.date) + " · " + c.msg;
-      }).catch(function () { /* при ошибке остаётся текст из data.json */ });
-    }
     return a;
+  }
+
+  var STATUS = { active: "В работе", frozen: "Заморожен", cancelled: "Отменён" };
+
+  function projectsCard(p) {
+    var card = el("div", "card");
+    var list = el("div", "projects");
+    p.items.forEach(function (it) {
+      var st = STATUS[it.status] ? it.status : "active";
+      var pct = Math.max(0, Math.min(100, Number(it.progress) || 0));
+      var row = el("div", st);
+      var head = el("div", "p-head");
+      head.appendChild(el("span", "p-name", it.name));
+      head.appendChild(el("span", "p-state", STATUS[st] + " · " + pct + "%"));
+      row.appendChild(head);
+      var bar = el("div", "bar");
+      bar.setAttribute("role", "progressbar");
+      bar.setAttribute("aria-label", it.name);
+      bar.setAttribute("aria-valuemin", "0");
+      bar.setAttribute("aria-valuemax", "100");
+      bar.setAttribute("aria-valuenow", pct);
+      var fill = el("i");
+      fill.style.setProperty("--w", pct + "%");
+      bar.appendChild(fill);
+      row.appendChild(bar);
+      if (it.note) row.appendChild(el("div", "p-note", it.note));
+      list.appendChild(row);
+    });
+    card.appendChild(list);
+    var legend = el("div", "legend");
+    ["active", "frozen", "cancelled"].forEach(function (k) {
+      var s = el("span", k, STATUS[k]);
+      legend.appendChild(s);
+    });
+    card.appendChild(legend);
+    return card;
   }
 
   fetch("data.json")
@@ -162,11 +212,54 @@
       document.getElementById("name").textContent = d.name;
       document.getElementById("foot-name").textContent = d.name;
       document.getElementById("about").textContent = d.about;
+
+
       var app = document.getElementById("app");
-      d.groups.forEach(function (g) {
-        app.appendChild(el("h2", "group", g.title));
+
+      if (d.aboutBlock) {
+        app.appendChild(el("h2", "group", d.aboutBlock.title));
+        var c = el("div", "card me");
+        c.appendChild(el("div", "prose", d.aboutBlock.text));
+        app.appendChild(c);
+      }
+
+      if (d.latest) {
+  app.appendChild(el("h2", "group", d.latest.title));
+  var g = el("div", "grid");
+  var latestTile = tile({
+    title: "Telegram-канал", color: "poem", wide: true,
+    quote: "…", sub: d.latest.date, href: d.latest.href
+  });
+  g.appendChild(latestTile);
+  app.appendChild(g);
+
+  fetch(d.latest.textFile)
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function (txt) {
+      latestTile.querySelector(".quote").textContent = txt.trim();
+    })
+    .catch(function () {
+      latestTile.querySelector(".quote").textContent = "Читать в Telegram";
+    });
+}
+
+      var music = document.getElementById("music");
+      if (music && music.content.querySelector("iframe")) {
+        app.appendChild(el("h2", "group", "Музыка"));
+        var box = el("div", "embeds");
+        box.appendChild(music.content.cloneNode(true));
+        app.appendChild(box);
+      }
+
+      if (d.projects && d.projects.items.length) {
+        app.appendChild(el("h2", "group", d.projects.title));
+        app.appendChild(projectsCard(d.projects));
+      }
+
+      d.groups.forEach(function (gr) {
+        app.appendChild(el("h2", "group", gr.title));
         var grid = el("div", "grid");
-        g.tiles.forEach(function (t) { t.compact = g.compact; grid.appendChild(tile(t)); });
+        gr.tiles.forEach(function (t) { t.compact = gr.compact; grid.appendChild(tile(t)); });
         app.appendChild(grid);
       });
     })
