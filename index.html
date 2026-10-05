@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- TODO: замени ПСЕВДОНИМ на свой ник (везде в файле) -->
+<title>ПСЕВДОНИМ — разработчик: программы, игры, стихи</title>
+<meta name="description" content="ПСЕВДОНИМ: личный сайт разработчика. Программы, игры на Unity, стихи и другие проекты.">
+<meta name="author" content="ПСЕВДОНИМ">
+<meta property="og:title" content="ПСЕВДОНИМ">
+<meta property="og:description" content="Программы, игры, стихи и другие проекты.">
+<meta property="og:type" content="website">
+<!-- TODO: после публикации раскомментируй и впиши адрес сайта -->
+<!-- <link rel="canonical" href="https://ПСЕВДОНИМ.github.io/"> -->
+<!-- TODO: сюда же вставляется тег подтверждения из Google Search Console -->
+<style>
+  :root {
+    --bg: #fafaf8;
+    --text: #1d1f23;
+    --muted: #5d6169;
+    --line: #dcdcd6;
+    --accent: #2457d6;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #16181c; --text: #e8e8e4; --muted: #9a9ea6; --line: #2e3138; --accent: #7aa2ff; }
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 42rem; margin: 0 auto; padding: 4rem 1.25rem 3rem; }
+  h1 { font-size: 2.25rem; line-height: 1.15; margin: 0 0 .5rem; letter-spacing: -.02em; }
+  .lead { color: var(--muted); margin: 0 0 3rem; max-width: 34rem; }
+  h2 { font-size: 1.05rem; margin: 0 0 .75rem; }
+  a { color: var(--accent); text-underline-offset: .18em; }
+  a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+  .sections { list-style: none; margin: 0 0 3rem; padding: 0; border-top: 1px solid var(--line); }
+  .sections li { border-bottom: 1px solid var(--line); }
+  .sections a { display: block; padding: 1.1rem 0; color: inherit; text-decoration: none; }
+  .sections strong { display: block; font-size: 1.2rem; }
+  .sections span { color: var(--muted); font-size: .95rem; }
+  .sections a:hover strong, .sections a:focus-visible strong { color: var(--accent); }
+  .links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
+  footer { margin-top: 4rem; color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <h1>ПСЕВДОНИМ</h1>
+    <p class="lead">Разработчик. Делаю программы и игры, пишу стихи. Здесь собраны все мои проекты.</p>
+  </header>
+
+  <h2>Разделы</h2>
+  <ul class="sections">
+    <!-- Каждая ссылка ведёт на отдельную страницу -->
+    <li><a href="programs.html"><strong>Программы</strong><span>Утилиты, боты, приложения, код на GitHub</span></a></li>
+    <li><a href="games.html"><strong>Игры</strong><span>Проекты на Unity, моды и эксперименты</span></a></li>
+    <li><a href="poems.html"><strong>Стихи</strong><span>Стихотворения и сборники</span></a></li>
+    <li><a href="other.html"><strong>Прочее</strong><span>Всё, что не вошло в остальные разделы</span></a></li>
+  </ul>
+
+  <h2>Где меня найти</h2>
+  <ul class="links">
+    <!-- TODO: впиши свои ссылки, ненужные удали -->
+    <li><a href="https://github.com/ПСЕВДОНИМ">GitHub</a></li>
+    <li><a href="https://t.me/ПСЕВДОНИМ">Telegram-канал</a></li>
+  </ul>
+
+  <footer>© <span id="year"></span> ПСЕВДОНИМ</footer>
+</main>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

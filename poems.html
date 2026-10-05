@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ЗАМЕНИТЬ: ПСЕВДОНИМ, ЛОГИН_GITHUB -->
+  <title>ПСЕВДОНИМ — стихи</title>
+  <meta name="description" content="Стихи автора ПСЕВДОНИМ: подборки, отдельные стихотворения и ссылка на Telegram-канал.">
+  <link rel="canonical" href="https://ЛОГИН_GITHUB.github.io/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ПСЕВДОНИМ — стихи">
+  <meta property="og:description" content="Стихи автора ПСЕВДОНИМ.">
+  <meta property="og:url" content="https://ЛОГИН_GITHUB.github.io/">
+
+  <!-- Подтверждение Google Search Console: вставьте сюда мета-тег, который он выдаст -->
+  <!-- <meta name="google-site-verification" content="..."> -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #eef1f4;
+      --ink: #1c2533;
+      --muted: #5d6b7e;
+      --accent: #2f5d7c;
+      --line: #cfd6de;
+      color-scheme: light dark;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #161c26;
+        --ink: #e4e9f0;
+        --muted: #93a0b2;
+        --accent: #8fb8d6;
+        --line: #2c3645;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-padding-top: 1rem; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Literata", Georgia, "Times New Roman", serif;
+      font-size: 1.0625rem;
+      line-height: 1.7;
+    }
+
+    .page {
+      max-width: 38rem;
+      margin: 0 auto;
+      padding: 4rem 1.25rem 3rem;
+    }
+
+    a { color: var(--accent); text-underline-offset: 0.2em; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 8vw, 3.6rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    .about {
+      margin: 1.25rem 0 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* Стихотворение на главной: единственный «главный» элемент страницы */
+    .featured {
+      margin: 3.5rem 0 0;
+      padding-left: 1.25rem;
+      border-left: 3px solid var(--accent);
+    }
+    .featured h2 { margin: 0 0 1rem; font-size: 1.15rem; font-weight: 600; }
+    .featured p { margin: 0 0 1.25rem; }
+    .featured .more { margin: 0; font-size: 0.95rem; }
+
+    h2.section { margin: 3.5rem 0 0.75rem; font-size: 1.15rem; font-weight: 600; }
+
+    .poems { list-style: none; margin: 0; padding: 0; }
+    .poems li { border-top: 1px solid var(--line); }
+    .poems li:last-child { border-bottom: 1px solid var(--line); }
+    .poems a {
+      display: block;
+      padding: 0.9rem 0;
+      color: inherit;
+      text-decoration: none;
+    }
+    .poems a:hover .title, .poems a:focus-visible .title { color: var(--accent); }
+    .poems .title { display: block; font-weight: 600; }
+    .poems .first-line { display: block; color: var(--muted); font-size: 0.95rem; }
+
+    footer {
+      margin-top: 3.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    footer p { margin: 0 0 0.4rem; }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <h1>ПСЕВДОНИМ</h1>
+      <p class="about">Пишу стихи. Здесь собраны те, что уже готовы.</p>
+    </header>
+
+    <!-- Одно стихотворение прямо на главной: даёт Google текст для индексации -->
+    <section class="featured" aria-labelledby="featured-title">
+      <h2 id="featured-title">Название стихотворения</h2>
+      <p>
+        Первая строка стихотворения,<br>
+        вторая строка стихотворения,<br>
+        третья строка стихотворения,<br>
+        четвёртая строка стихотворения.
+      </p>
+      <p>
+        Первая строка второй строфы,<br>
+        вторая строка второй строфы,<br>
+        третья строка второй строфы,<br>
+        четвёртая строка второй строфы.
+      </p>
+      <p class="more"><a href="stihi/nazvanie-1.html">Открыть отдельной страницей</a></p>
+    </section>
+
+    <!-- Список всех стихов: на каждое своя страница в папке stihi/ -->
+    <section aria-labelledby="all-poems">
+      <h2 class="section" id="all-poems">Все стихи</h2>
+      <ul class="poems">
+        <li>
+          <a href="stihi/nazvanie-1.html">
+            <span class="title">Название стихотворения</span>
+            <span class="first-line">Первая строка стихотворения…</span>
+          </a>
+        </li>
+        <li>
+          <a href="stihi/nazvanie-2.html">
+            <span class="title">Другое название</span>
+            <span class="first-line">Первая строка другого стихотворения…</span>
+          </a>
+        </li>
+        <li>
+          <a href="stihi/nazvanie-3.html">
+            <span class="title">Ещё одно название</span>
+            <span class="first-line">Первая строка ещё одного стихотворения…</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <footer>
+      <p>Новые стихи выходят в Telegram: <a href="https://t.me/ИМЯ_КАНАЛА">t.me/ИМЯ_КАНАЛА</a></p>
+      <p>© <span id="year">2026</span> ПСЕВДОНИМ</p>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
