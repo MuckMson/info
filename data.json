@@ -1,0 +1,24 @@
+{
+  "name": "ПСЕВДОНИМ",
+  "about": "Разработчик. Делаю программы и игры, пишу стихи. Здесь собраны все мои проекты.",
+  "groups": [
+    {
+      "title": "Проекты",
+      "tiles": [
+        { "title": "Программы", "color": "prog", "href": "programs.html", "big": "Название проекта", "sub": "Последнее обновление" },
+        { "title": "Игры", "color": "game", "href": "games.html", "big": "Название игры", "sub": "Unity · в разработке" },
+        { "title": "Стихи", "color": "poem", "href": "poems.html", "wide": true, "quote": "Здесь будет строчка из последнего стихотворения…", "sub": "Новое стихотворение" },
+        { "title": "Конспекты", "color": "misc", "href": "https://github.com/ПСЕВДОНИМ/РЕПОЗИТОРИЙ", "repo": "", "wide": true, "big": "Конспекты с учёбы", "sub": "Репозиторий на GitHub" },
+        { "title": "Прочее", "color": "misc", "href": "other.html", "wide": true, "big": "Всё остальное", "sub": "Заметки, эксперименты, идеи" }
+      ]
+    },
+    {
+      "title": "Где меня найти",
+      "compact": true,
+      "tiles": [
+        { "title": "GitHub", "color": "link", "href": "https://github.com/ПСЕВДОНИМ", "sub": "Исходный код проектов" },
+        { "title": "Telegram", "color": "link", "href": "https://t.me/ПСЕВДОНИМ", "sub": "Канал со стихами" }
+      ]
+    }
+  ]
+}

@@ -7,9 +7,9 @@
 <title>ПСЕВДОНИМ — программы, игры, стихи</title>
 <meta name="description" content="ПСЕВДОНИМ: личный сайт разработчика. Программы, игры на Unity, стихи и другие проекты.">
 <meta name="author" content="ПСЕВДОНИМ">
-<meta property="og:title" content="ПСЕВДОНИМ">
-<meta property="og:description" content="Программы, игры, стихи и другие проекты.">
-<meta property="og:type" content="website">
+<meta MuckMson="og:title" content="ПСЕВДОНИМ">
+<meta MuckMson="og:description" content="Программы, игры, стихи и другие проекты.">
+<meta MuckMson="og:type" content="website">
 <!-- TODO: после публикации раскомментируй и впиши адрес сайта -->
 <!-- <link rel="canonical" href="https://ПСЕВДОНИМ.github.io/"> -->
 <!-- TODO: сюда же вставляется тег подтверждения из Google Search Console -->
@@ -74,6 +74,7 @@
   .quote { font: italic 400 1.2rem/1.5 var(--serif); }
   .prog { --c: var(--c-prog); } .game { --c: var(--c-game); } .poem { --c: var(--c-poem); } .misc { --c: var(--c-misc); } .link { --c: var(--c-link); }
 
+  .tile.compact { min-height: 6.5rem; }
   @media (prefers-reduced-motion: reduce) { .name::after { transition: none; } }
   @media (max-width: 26rem) { .big { font-size: 1.35rem; } .tile { padding: .9rem; } }
 
@@ -83,45 +84,95 @@
 <body>
 <div class="wrap">
   <header>
-    <!-- TODO: поменяй заголовок и подпись на свои -->
-    <h1>ПСЕВДОНИМ</h1>
-    <p>Разработчик. Делаю программы и игры, пишу стихи. Здесь собраны все мои проекты.</p>
+    <h1 id="name">ПСЕВДОНИМ</h1>
+    <p id="about"></p>
   </header>
 
-  <h2 class="group">Проекты</h2>
-  <div class="grid">
-    <!-- Плитки разделов. В .big и .sub пиши актуальное: название последнего проекта и пояснение. -->
-    <a class="tile prog" href="programs.html">
-      <span class="name">Программы</span>
-      <span><span class="big">Название проекта</span><span class="sub">Последнее обновление</span></span>
-    </a>
-    <a class="tile game" href="games.html">
-      <span class="name">Игры</span>
-      <span><span class="big">Название игры</span><span class="sub">Unity · в разработке</span></span>
-    </a>
-    <a class="tile poem wide" href="poems.html">
-      <span class="name">Стихи</span>
-      <span><span class="quote">Здесь будет строчка из последнего стихотворения…</span><span class="sub">Новое стихотворение</span></span>
-    </a>
-    <a class="tile misc wide" href="other.html">
-      <span class="name">Прочее</span>
-      <span><span class="big">Всё остальное</span><span class="sub">Заметки, эксперименты, идеи</span></span>
-    </a>
-  </div>
+  <div id="app"></div>
 
-  <h2 class="group">Где меня найти</h2>
-  <div class="grid">
-    <!-- TODO: впиши свои ссылки, ненужные плитки удали -->
-    <a class="tile link" style="min-height:6.5rem" href="https://github.com/ПСЕВДОНИМ">
-      <span class="name">GitHub</span><span class="sub">Исходный код проектов</span>
-    </a>
-    <a class="tile link" style="min-height:6.5rem" href="https://t.me/ПСЕВДОНИМ">
-      <span class="name">Telegram</span><span class="sub">Канал со стихами</span>
-    </a>
-  </div>
+  <noscript>
+    <p><a href="programs.html">Программы</a> · <a href="games.html">Игры</a> · <a href="poems.html">Стихи</a> · <a href="other.html">Прочее</a></p>
+  </noscript>
 
-  <footer>© <span id="year"></span> ПСЕВДОНИМ</footer>
+  <footer>© <span id="year"></span> <span id="foot-name"></span></footer>
 </div>
-<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  // «3 дня назад» и т. п.
+  function plural(n, one, few, many) {
+    var m = n % 100, d = n % 10;
+    if (m > 10 && m < 20) return many;
+    if (d === 1) return one;
+    if (d > 1 && d < 5) return few;
+    return many;
+  }
+  function ago(iso) {
+    var sec = (Date.now() - new Date(iso).getTime()) / 1000, n;
+    if (sec < 3600) { n = Math.max(1, Math.round(sec / 60)); return n + " " + plural(n, "минуту", "минуты", "минут") + " назад"; }
+    if (sec < 86400) { n = Math.round(sec / 3600); return n + " " + plural(n, "час", "часа", "часов") + " назад"; }
+    if (sec < 2592000) { n = Math.round(sec / 86400); return n + " " + plural(n, "день", "дня", "дней") + " назад"; }
+    if (sec < 31536000) { n = Math.round(sec / 2592000); return n + " " + plural(n, "месяц", "месяца", "месяцев") + " назад"; }
+    n = Math.round(sec / 31536000); return n + " " + plural(n, "год", "года", "лет") + " назад";
+  }
+
+  // Последний коммит репозитория; результат хранится 10 минут, чтобы не упереться в лимит GitHub
+  function lastCommit(repo) {
+    var key = "gh:" + repo, cached = null;
+    try { cached = JSON.parse(sessionStorage.getItem(key)); } catch (e) {}
+    if (cached && Date.now() - cached.t < 600000) return Promise.resolve(cached.v);
+    return fetch("https://api.github.com/repos/" + repo + "/commits?per_page=1")
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (list) {
+        var c = list[0].commit;
+        var v = { date: c.committer.date, msg: c.message.split("\n")[0] };
+        try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), v: v })); } catch (e) {}
+        return v;
+      });
+  }
+
+  function tile(t) {
+    var a = el("a", "tile " + (t.color || "link") + (t.wide ? " wide" : "") + (t.compact ? " compact" : ""));
+    a.href = t.href || "#";
+    a.appendChild(el("span", "name", t.title));
+    var body = el("span");
+    if (t.quote) body.appendChild(el("span", "quote", t.quote));
+    if (t.big) body.appendChild(el("span", "big", t.big));
+    var sub = el("span", "sub", t.sub || "");
+    body.appendChild(sub);
+    a.appendChild(body);
+    if (t.repo) {
+      lastCommit(t.repo).then(function (c) {
+        sub.textContent = "Обновлено " + ago(c.date) + " · " + c.msg;
+      }).catch(function () { /* при ошибке остаётся текст из data.json */ });
+    }
+    return a;
+  }
+
+  fetch("data.json")
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      document.getElementById("name").textContent = d.name;
+      document.getElementById("foot-name").textContent = d.name;
+      document.getElementById("about").textContent = d.about;
+      var app = document.getElementById("app");
+      d.groups.forEach(function (g) {
+        app.appendChild(el("h2", "group", g.title));
+        var grid = el("div", "grid");
+        g.tiles.forEach(function (t) { t.compact = g.compact; grid.appendChild(tile(t)); });
+        app.appendChild(grid);
+      });
+    })
+    .catch(function () {
+      document.getElementById("app").textContent = "Не удалось загрузить данные сайта (data.json).";
+    });
+</script>
 </body>
 </html>
