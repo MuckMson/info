@@ -3,25 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<!-- TODO: замени MuckMson на свой ник (везде в файле) -->
-<title>MuckMson — блог о разработке, играх и стихах</title>
-<meta name="description" content="Страничка MuckMson о своих проектах и творчестве">
-<meta name="author" content="MuckMson">
-<meta property="og:title" content="MuckMson — Главная страница">
-<meta property="og:description" content="Публикую свои проекты, стихи и вообще все, что не лень.">
+<!-- TODO: замени ПСЕВДОНИМ на свой ник (везде в файле) -->
+<title>ПСЕВДОНИМ — программы, игры, стихи</title>
+<meta name="description" content="ПСЕВДОНИМ: личный сайт разработчика. Программы, игры на Unity, стихи и другие проекты.">
+<meta name="author" content="ПСЕВДОНИМ">
+<meta property="og:title" content="ПСЕВДОНИМ">
+<meta property="og:description" content="Программы, игры, стихи и другие проекты.">
 <meta property="og:type" content="website">
-<link rel="canonical" href="https://muckmson.github.io/">
+<!-- TODO: после публикации раскомментируй и впиши адрес сайта -->
+<!-- <link rel="canonical" href="https://ПСЕВДОНИМ.github.io/"> -->
 <!-- TODO: сюда же вставляется тег подтверждения из Google Search Console -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f3f5f7;
+    --bg: #eceff3;
+    --card: #ffffff;
     --ink: #14181f;
     --muted: #596273;
     --line: #d5dae1;
     --accent: #1f5f5b;
+    --c-prog: #2f5fd0;
+    --c-game: #2a8a4a;
+    --c-poem: #b5416a;
+    --c-misc: #b0701f;
+    --c-link: #596273;
     --serif: "Literata", Georgia, "Times New Roman", serif;
     --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     box-sizing: border-box;
@@ -29,136 +36,92 @@
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) { --bg: #0f1316; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8; }
+    :root:not([data-theme="light"]) {
+      --bg: #0b0e11; --card: #171c21; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8;
+      --c-prog: #7aa2ff; --c-game: #6fd08c; --c-poem: #f08aae; --c-misc: #e8b56a; --c-link: #9aa4b2;
+    }
   }
-  :root[data-theme="dark"] { --bg: #0f1316; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8; }
+  :root[data-theme="dark"] {
+    --bg: #0b0e11; --card: #171c21; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8;
+    --c-prog: #7aa2ff; --c-game: #6fd08c; --c-poem: #f08aae; --c-misc: #e8b56a; --c-link: #9aa4b2;
+  }
   *, *::before, *::after { box-sizing: inherit; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.65 var(--sans); }
-  a { color: inherit; }
-  a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
-  .wrap { max-width: 46rem; margin: 0 auto; padding: 0 1.25rem; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 var(--sans); }
+  a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1rem 2rem; }
 
-  /* Шапка */
-  .top { display: flex; justify-content: space-between; align-items: baseline; padding: 1.5rem 0; border-bottom: 1px solid var(--line); gap: 1rem; flex-wrap: wrap; }
-  .brand { font: 600 1.1rem var(--serif); text-decoration: none; }
-  nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.25rem; flex-wrap: wrap; font-size: .95rem; }
-  nav a { color: var(--muted); text-decoration: none; }
-  nav a:hover, nav a[aria-current] { color: var(--accent); }
+  header { padding: 0 .25rem 1.75rem; }
+  h1 { font: 600 clamp(2rem, 6vw, 2.8rem)/1.1 var(--serif); letter-spacing: -.02em; margin: 0 0 .5rem; }
+  header p { font: 400 1.1rem/1.55 var(--serif); color: var(--muted); margin: 0; max-width: 30rem; }
 
-  /* Приветствие */
-  .intro { padding: 4.5rem 0 3rem; }
-  .intro h1 { font: 600 clamp(2.4rem, 7vw, 3.6rem)/1.08 var(--serif); letter-spacing: -.02em; margin: 0 0 1.25rem; max-width: 14ch; }
-  .intro p { font: 400 1.2rem/1.6 var(--serif); color: var(--muted); max-width: 32rem; margin: 0; }
+  .group { font: 600 1.15rem var(--serif); margin: 1.75rem .25rem .75rem; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
 
-  /* Фильтр */
-  .filter { display: flex; gap: .5rem; flex-wrap: wrap; padding: 1rem 0; border-top: 1px solid var(--line); }
-  .filter button { font: inherit; font-size: .92rem; background: none; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: .3rem .9rem; cursor: pointer; }
-  .filter button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  /* Плитка */
+  .tile {
+    display: flex; flex-direction: column; justify-content: space-between; gap: 1.25rem;
+    min-height: 9.5rem; padding: 1rem 1.1rem 1.1rem;
+    background: var(--card); color: inherit; text-decoration: none;
+    border-radius: 20px;
+  }
+  .tile.wide { grid-column: 1 / -1; min-height: 8rem; }
+  .tile:hover .name::after { transform: translateX(3px); }
+  .name { display: flex; align-items: center; gap: .5rem; font-weight: 600; font-size: .98rem; color: var(--c); }
+  .name::before { content: ""; width: .7rem; height: .7rem; border-radius: 50%; background: var(--c); flex: none; }
+  .name::after { content: "›"; margin-left: auto; color: var(--muted); font-size: 1.3rem; line-height: 1; transition: transform .15s; }
+  .big { font: 600 1.6rem/1.15 var(--serif); letter-spacing: -.01em; }
+  .sub { display: block; margin-top: .25rem; font-size: .88rem; color: var(--muted); }
+  .quote { font: italic 400 1.2rem/1.5 var(--serif); }
+  .prog { --c: var(--c-prog); } .game { --c: var(--c-game); } .poem { --c: var(--c-poem); } .misc { --c: var(--c-misc); } .link { --c: var(--c-link); }
 
-  /* Записи */
-  .posts { list-style: none; margin: 0; padding: 0; }
-  .post { display: grid; grid-template-columns: 7.5rem 1fr; gap: .25rem 1.5rem; padding: 1.75rem 0; border-top: 1px solid var(--line); }
-  .post[hidden] { display: none; }
-  .post time { color: var(--muted); font-size: .9rem; padding-top: .45rem; }
-  .post h2 { font: 600 1.45rem/1.3 var(--serif); margin: 0 0 .4rem; }
-  .post h2 a { text-decoration: none; }
-  .post h2 a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: .2em; }
-  .post p { margin: 0 0 .5rem; color: var(--muted); }
-  .tag { font-size: .85rem; color: var(--accent); }
-  @media (max-width: 36rem) { .post { grid-template-columns: 1fr; } .post time { padding-top: 0; } }
+  @media (prefers-reduced-motion: reduce) { .name::after { transition: none; } }
+  @media (max-width: 26rem) { .big { font-size: 1.35rem; } .tile { padding: .9rem; } }
 
-  footer { border-top: 1px solid var(--line); margin-top: 1rem; padding: 2rem 0 3rem; color: var(--muted); font-size: .9rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem 1.5rem; }
-  footer a { color: var(--muted); }
+  footer { margin: 2.5rem .25rem 0; color: var(--muted); font-size: .9rem; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <a class="brand" href="index.html">MuckMson</a>
-    <nav aria-label="Основное меню">
-      <ul>
-        <li><a href="index.html" aria-current="page">Блог</a></li>
-        <li><a href="programs.html">Программы</a></li>
-        <li><a href="games.html">Игры</a></li>
-        <li><a href="poems.html">Стихи</a></li>
-        <li><a href="about.html">Обо мне</a></li>
-      </ul>
-    </nav>
+  <header>
+    <!-- TODO: поменяй заголовок и подпись на свои -->
+    <h1>ПСЕВДОНИМ</h1>
+    <p>Разработчик. Делаю программы и игры, пишу стихи. Здесь собраны все мои проекты.</p>
   </header>
 
-  <main>
-    <section class="intro">
-      <!-- TODO: поменяй заголовок и подпись на свои -->
-      <h1>Пишу код, делаю игры и стихи</h1>
-      <p>Здесь я рассказываю, что собираю и над чем думаю: заметки о разработке, итоги проектов и новые стихи.</p>
-    </section>
+  <h2 class="group">Проекты</h2>
+  <div class="grid">
+    <!-- Плитки разделов. В .big и .sub пиши актуальное: название последнего проекта и пояснение. -->
+    <a class="tile prog" href="programs.html">
+      <span class="name">Программы</span>
+      <span><span class="big">Название проекта</span><span class="sub">Последнее обновление</span></span>
+    </a>
+    <a class="tile game" href="games.html">
+      <span class="name">Игры</span>
+      <span><span class="big">Название игры</span><span class="sub">Unity · в разработке</span></span>
+    </a>
+    <a class="tile poem wide" href="poems.html">
+      <span class="name">Стихи</span>
+      <span><span class="quote">Здесь будет строчка из последнего стихотворения…</span><span class="sub">Новое стихотворение</span></span>
+    </a>
+    <a class="tile misc wide" href="other.html">
+      <span class="name">Прочее</span>
+      <span><span class="big">Всё остальное</span><span class="sub">Заметки, эксперименты, идеи</span></span>
+    </a>
+  </div>
 
-    <div class="filter" role="group" aria-label="Фильтр по темам">
-      <button type="button" data-tag="all" aria-pressed="true">Все записи</button>
-      <button type="button" data-tag="код" aria-pressed="false">Код</button>
-      <button type="button" data-tag="игры" aria-pressed="false">Игры</button>
-      <button type="button" data-tag="стихи" aria-pressed="false">Стихи</button>
-    </div>
+  <h2 class="group">Где меня найти</h2>
+  <div class="grid">
+    <!-- TODO: впиши свои ссылки, ненужные плитки удали -->
+    <a class="tile link" style="min-height:6.5rem" href="https://github.com/ПСЕВДОНИМ">
+      <span class="name">GitHub</span><span class="sub">Исходный код проектов</span>
+    </a>
+    <a class="tile link" style="min-height:6.5rem" href="https://t.me/ПСЕВДОНИМ">
+      <span class="name">Telegram</span><span class="sub">Канал со стихами</span>
+    </a>
+  </div>
 
-    <ul class="posts">
-      <!-- Каждая запись: дата, заголовок со ссылкой на файл в папке posts/, короткое описание, тема.
-           Чтобы добавить запись, скопируй блок <li> и поменяй данные. Новые записи ставь сверху. -->
-      <li class="post" data-tag="код">
-        <time datetime="2026-10-05">5 октября 2026</time>
-        <div>
-          <h2><a href="posts/pervaya-zapis.html">Первая запись: зачем этот блог</a></h2>
-          <p>Короткий рассказ о том, что здесь будет и почему всё собрано на одном сайте.</p>
-          <span class="tag">код</span>
-        </div>
-      </li>
-      <li class="post" data-tag="игры">
-        <time datetime="2026-10-04">4 октября 2026</time>
-        <div>
-          <h2><a href="posts/game-notes.html">Заметки о разработке игры</a></h2>
-          <p>Что получилось за неделю, что сломалось и что я собираюсь делать дальше.</p>
-          <span class="tag">игры</span>
-        </div>
-      </li>
-      <li class="post" data-tag="стихи">
-        <time datetime="2026-10-03">3 октября 2026</time>
-        <div>
-          <h2><a href="poems.html">Первое стихотворение</a></h2>
-          <p>Здесь будет первая строчка или тема стихотворения, чтобы читатель захотел открыть.</p>
-          <span class="tag">стихи</span>
-        </div>
-      </li>
-      <li class="post" data-tag="код">
-        <time datetime="2026-10-02">2 октября 2026</time>
-        <div>
-          <h2><a href="posts/how-this-site-works.html">Как устроен этот сайт</a></h2>
-          <p>Статичный сайт на GitHub Pages: из чего он состоит и как в него добавить запись.</p>
-          <span class="tag">код</span>
-        </div>
-      </li>
-    </ul>
-  </main>
-
-  <footer>
-    <span>© <span id="year"></span> MuckMson</span>
-    <span>
-      <!-- TODO: впиши свои ссылки, ненужные удали -->
-      <a href="https://github.com/MuckMson">GitHub</a> ·
-      <a href="https://t.me/MuckMson">Telegram</a>
-    </span>
-  </footer>
+  <footer>© <span id="year"></span> ПСЕВДОНИМ</footer>
 </div>
-
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-  var buttons = document.querySelectorAll(".filter button");
-  var posts = document.querySelectorAll(".post");
-  buttons.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var tag = btn.dataset.tag;
-      buttons.forEach(function (b) { b.setAttribute("aria-pressed", String(b === btn)); });
-      posts.forEach(function (p) { p.hidden = tag !== "all" && p.dataset.tag !== tag; });
-    });
-  });
-</script>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>
