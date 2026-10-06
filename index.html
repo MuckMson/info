@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eceff3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#2a3038" media="(prefers-color-scheme: dark)">
 <title>MuckMson — инфо</title>
 <meta name="description" content="MuckMson: личный сайт. Стихи, игры на Unity и студия Mucking Games.">
 <meta name="author" content="MuckMson">
@@ -50,21 +52,23 @@
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #0b0e11; --card: #171c21; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8; --on-accent: #0b0e11;
+      --bg: #2a3038; --card: #373f4a; --ink: #eef1f5; --muted: #a9b3c1; --line: #4a5461; --accent: #324b48; --on-accent: #f1f8ff;
       --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
       --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
-      --shadow: 0 6px 18px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35);
-      --shadow-hover: 0 10px 24px rgba(0,0,0,.55), 0 2px 5px rgba(0,0,0,.4);
-      --shadow-btn: 0 3px 10px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.4);
+      --veil-weak: color-mix(in srgb, var(--bg) 60%, transparent); --veil-strong: color-mix(in srgb, var(--bg) 85%, transparent);
+      --shadow: 0 6px 18px rgba(0,0,0,.32), 0 1px 3px rgba(0,0,0,.25);
+      --shadow-hover: 0 10px 24px rgba(0,0,0,.40), 0 2px 5px rgba(0,0,0,.3);
+      --shadow-btn: 0 3px 10px rgba(0,0,0,.38), 0 1px 2px rgba(0,0,0,.3);
     }
   }
   :root[data-theme="dark"] {
-    --bg: #0b0e11; --card: #171c21; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8; --on-accent: #0b0e11;
+    --bg: #e1d5d5; --card: #566273; --ink: #eef1f5; --muted: #a9b3c1; --line: #4a5461; --accent: #9dc9c4; --on-accent: #2d3034;
     --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
     --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
-    --shadow: 0 6px 18px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35);
-    --shadow-hover: 0 10px 24px rgba(0,0,0,.55), 0 2px 5px rgba(0,0,0,.4);
-    --shadow-btn: 0 3px 10px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.4);
+    --veil-weak: color-mix(in srgb, var(--bg) 60%, transparent); --veil-strong: color-mix(in srgb, var(--bg) 85%, transparent);
+    --shadow: 0 6px 18px rgba(0,0,0,.32), 0 1px 3px rgba(0,0,0,.25);
+    --shadow-hover: 0 10px 24px rgba(0,0,0,.40), 0 2px 5px rgba(0,0,0,.3);
+    --shadow-btn: 0 3px 10px rgba(0,0,0,.38), 0 1px 2px rgba(0,0,0,.3);
   }
   *, *::before, *::after { box-sizing: inherit; }
   html { scroll-padding-top: env(safe-area-inset-top, 0px); }
@@ -76,7 +80,7 @@
     animation: drift-a 5s linear infinite;
   }
   body::before { /* вуаль: делает центр колонки спокойнее, чтобы текст читался */
-    inset: 0;
+    inset: -800px 0;
     background: linear-gradient(90deg, var(--veil-weak) 0, var(--veil-strong) calc(50% - 22rem), var(--veil-strong) calc(50% + 22rem), var(--veil-weak) 100%);
   }
   body::after { /* мягкие полосы поверх, идут в другую сторону */
@@ -121,7 +125,7 @@
 
   /* Плитка (ссылка) и карточка (без ссылки) — один и тот же вид */
   .tile, .card {
-    background: color-mix(in srgb, var(--card) 80%, transparent); color: inherit; border-radius: 20px; padding: 1rem 1.1rem 1.1rem;
+    background: color-mix(in srgb, var(--card) 85%, transparent); color: inherit; border-radius: 20px; padding: 1rem 1.1rem 1.1rem;
     box-shadow: var(--shadow); transition: transform .15s, box-shadow .15s;
   }
   .tile:hover, .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
