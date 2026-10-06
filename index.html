@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#eceff3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#2a3038" media="(prefers-color-scheme: dark)">
 <title>MuckMson — инфо</title>
@@ -46,12 +47,14 @@
     --shadow-btn: 0 3px 10px rgba(20,24,31,.18), 0 1px 2px rgba(20,24,31,.12);
     --serif: "Literata", Georgia, "Times New Roman", serif;
     --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color-scheme: light dark;
     box-sizing: border-box;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
+      color-scheme: dark;
       --bg: #2a3038; --card: #373f4a; --ink: #eef1f5; --muted: #a9b3c1; --line: #4a5461; --accent: #324b48; --on-accent: #f1f8ff;
       --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
       --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
@@ -61,7 +64,9 @@
       --shadow-btn: 0 3px 10px rgba(0,0,0,.38), 0 1px 2px rgba(0,0,0,.3);
     }
   }
+  :root[data-theme="light"] { color-scheme: light; }
   :root[data-theme="dark"] {
+    color-scheme: dark;
     --bg: #e1d5d5; --card: #566273; --ink: #eef1f5; --muted: #a9b3c1; --line: #4a5461; --accent: #9dc9c4; --on-accent: #2d3034;
     --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
     --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
