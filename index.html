@@ -55,6 +55,7 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       color-scheme: dark;
+      --embed-bg: var(--card);
       --bg: #2a3038; --card: #373f4a; --ink: #eef1f5; --muted: #a9b3c1; --line: #4a5461; --accent: #324b48; --on-accent: #f1f8ff;
       --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
       --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
@@ -67,6 +68,7 @@
   :root[data-theme="light"] { color-scheme: light; }
   :root[data-theme="dark"] {
     color-scheme: dark;
+    --embed-bg: var(--card);
     --bg: #e1d5d5; --card: #566273; --ink: #eef1f5; --muted: #a9b3c1; --line: #4a5461; --accent: #9dc9c4; --on-accent: #2d3034;
     --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
     --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
@@ -166,10 +168,13 @@
   .legend span::before { content: ""; display: inline-block; width: .6rem; height: .6rem; margin-right: .4rem; border-radius: 50%; background: var(--s); }
 
   /* Музыка: сюда попадает код встраивания Apple Music */
-  .embeds iframe { display: block; width: 100% !important; max-width: 100% !important; margin: 0 0 .75rem; border: 0; border-radius: 16px !important; box-shadow: var(--shadow); transition: transform .15s, box-shadow .15s; }
-  .embeds iframe:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .embeds iframe { display: block; width: 100% !important; max-width: 100% !important; margin: 0; border: 0; border-radius: 16px !important; }
+  /* Обёртка: поверх плеера лежит слой цвета карточки в режиме lighten — тёмный фон плеера подтягивается к цвету карточек, текст и кнопки остаются чёткими */
+  .embed-wrap { position: relative; margin: 0 0 .75rem; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s, box-shadow .15s; }
+  .embed-wrap::after { content: ""; position: absolute; inset: 0; border-radius: 16px; background: var(--embed-bg, transparent); mix-blend-mode: lighten; pointer-events: none; }
+  .embed-wrap:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
 
-  @media (prefers-reduced-motion: reduce) { .tile, .card, .btn, .social, .embeds iframe, .tile .name::after { transition: none; } .tile:hover, .card:hover, .btn:hover, .social:hover, .embeds iframe:hover { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .tile, .card, .btn, .social, .embed-wrap, .tile .name::after { transition: none; } .tile:hover, .card:hover, .btn:hover, .social:hover, .embed-wrap:hover { transform: none; } }
   @media (max-width: 26rem) { .big { font-size: 1.35rem; } .tile, .card { padding: .9rem; } }
 
   footer { margin: 2.5rem .25rem 0; color: var(--muted); font-size: .9rem; }
@@ -324,7 +329,27 @@
         app.appendChild(el("h2", "group", "Музыка"));
         var box = el("div", "embeds");
         box.appendChild(music.content.cloneNode(true));
+        box.querySelectorAll("iframe").forEach(function (f) {
+          var w = el("div", "embed-wrap");
+          f.parentNode.insertBefore(w, f);
+          w.appendChild(f);
+        });
         app.appendChild(box);
+
+        // Тема плеера Apple Music: передаём theme=dark/light прямо в адрес встраивания
+        var mq = window.matchMedia("(prefers-color-scheme: dark)");
+        var applyEmbedTheme = function () {
+          var forced = document.documentElement.getAttribute("data-theme");
+          var dark = forced ? forced === "dark" : mq.matches;
+          box.querySelectorAll("iframe").forEach(function (f) {
+            var u = new URL(f.getAttribute("src"), location.href);
+            if (u.searchParams.get("theme") === (dark ? "dark" : "light")) return;
+            u.searchParams.set("theme", dark ? "dark" : "light");
+            f.setAttribute("src", u.toString());
+          });
+        };
+        applyEmbedTheme();
+        if (mq.addEventListener) mq.addEventListener("change", applyEmbedTheme);
       }
 
       if (d.projects && d.projects.items.length) {
