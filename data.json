@@ -1,11 +1,16 @@
 {
   "name": "MuckMson",
   "about": "Дурачок с макбуком",
+  "buttons": [
+    { "label": "Стихи", "href": "https://t.me/muckpoem" },
+    { "label": "Mucking Games", "href": "https://t.me/muckinggames" },
+    { "label": "Написать мне", "href": "https://t.me/muckmson" }
+  ],
   "subscribe": { "title": "Подписаться на стихи", "href": "https://t.me/muckpoem" },
 
   "aboutBlock": {
     "title": "Обо мне",
-    "text": "Меня зовут Мак (Илья). Люблю апельсины и не люблю когда в общаге ИТшник сжигает беляш. \n\n🎓 Студент СибГУТИ\n🎮 Инди разработчик\n📝 Стихописец\n🍎 Apple enjoyer"
+    "text": "Меня зовут Мак (Илья). Люблю друзей и апельсины.\nНе люблю макароны \n\n🎓 Студент СибГУТИ\n🎮 Инди разработчик\n📝 Стихописец\n🍎 Apple enjoyer"
   },
 
     "latest": {
@@ -30,19 +35,11 @@
         {
           "title": "Mucking Games",
           "color": "game",
-          "big": "Студия игр на Unity",
+          "big": "Моя геймдев микростудия",
           "sub": "Новости и разработка в Telegram",
           "href": "https://t.me/muckinggames",
           "wide": true
         }
-      ]
-    },
-    {
-      "title": "Связь",
-      "compact": true,
-      "tiles": [
-        { "title": "Стихи", "color": "poem", "big": "@muckpoem", "sub": "Telegram-канал", "href": "https://t.me/muckpoem" },
-        { "title": "Написать мне", "color": "link", "big": "@muckmson", "sub": "Telegram", "href": "https://t.me/muckmson" }
       ]
     }
   ]

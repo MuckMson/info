@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <!-- <meta property="og:url" content="https://ТВОЙ-АДРЕС/"> -->
 <!-- <link rel="canonical" href="https://ТВОЙ-АДРЕС/"> -->
-<!-- TODO: сюда же вставляется тег подтверждения из Google Search Console -->
+<!-- TODO: сюда же вставляется тег подтвеЖрждения из Google Search Console -->
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,14 +27,21 @@
     --ink: #14181f;
     --muted: #596273;
     --line: #d5dae1;
-    --accent: #1f5f5b;
-    --on-accent: #ffffff;
+    --accent: #f4fffe;
+    --on-accent: #705757;
     --c-game: #2a8a4a;
     --c-poem: #b5416a;
     --c-link: #596273;
     --c-live: #b0701f;    /* проект в работе */
     --c-frozen: #2f6fd0;  /* проект заморожен */
     --c-cancel: #c23b32;  /* проект отменён */
+    /* Палитра фона: тёмно-бирюзовый → бирюзовый → светло-бирюзовый → белый → светло-фиолетовый → фиолетовый → тёмно-фиолетовый */
+    --t1: #26bda1; --t2: #1fa59c; --t3: #a7ffe9; --t4: #ffffff; --t5: #b49fe8; --t6: #8b5cf0; --t7: #5e3b9e;
+    --veil-weak: color-mix(in srgb, var(--bg) 26%, transparent);   /* по краям экрана фон ярче */
+    --veil-strong: color-mix(in srgb, var(--bg) 70%, transparent); /* под текстом спокойнее */
+    --shadow: 0 6px 18px rgba(20,24,31,.14), 0 1px 3px rgba(20,24,31,.10);
+    --shadow-hover: 0 10px 24px rgba(20,24,31,.20), 0 2px 5px rgba(20,24,31,.12);
+    --shadow-btn: 0 3px 10px rgba(20,24,31,.18), 0 1px 2px rgba(20,24,31,.12);
     --serif: "Literata", Georgia, "Times New Roman", serif;
     --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     box-sizing: border-box;
@@ -46,35 +53,78 @@
       --bg: #0b0e11; --card: #171c21; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8; --on-accent: #0b0e11;
       --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
       --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
+      --shadow: 0 6px 18px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35);
+      --shadow-hover: 0 10px 24px rgba(0,0,0,.55), 0 2px 5px rgba(0,0,0,.4);
+      --shadow-btn: 0 3px 10px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.4);
     }
   }
   :root[data-theme="dark"] {
     --bg: #0b0e11; --card: #171c21; --ink: #e6eaee; --muted: #8d97a5; --line: #242b33; --accent: #5fc2b8; --on-accent: #0b0e11;
     --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
     --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
+    --shadow: 0 6px 18px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.35);
+    --shadow-hover: 0 10px 24px rgba(0,0,0,.55), 0 2px 5px rgba(0,0,0,.4);
+    --shadow-btn: 0 3px 10px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.4);
   }
   *, *::before, *::after { box-sizing: inherit; }
   html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  /* Анимированный фон: две слои диагональных полос плывут навстречу друг другу */
+  html::before, body::before, body::after { content: ""; position: fixed; inset: -800px; z-index: -1; pointer-events: none; }
+  html::before {
+    background: repeating-linear-gradient(115deg, var(--t1) 0, var(--t2) 100px, var(--t3) 200px, var(--t4) 300px, var(--t5) 400px, var(--t6) 500px, var(--t7) 600px, var(--t1) 700px);
+    animation: drift-a 5s linear infinite;
+  }
+  body::before { /* вуаль: делает центр колонки спокойнее, чтобы текст читался */
+    inset: 0;
+    background: linear-gradient(90deg, var(--veil-weak) 0, var(--veil-strong) calc(50% - 22rem), var(--veil-strong) calc(50% + 22rem), var(--veil-weak) 100%);
+  }
+  body::after { /* мягкие полосы поверх, идут в другую сторону */
+    background: repeating-linear-gradient(65deg, var(--t7) 0, var(--t6) 100px, var(--t5) 200px, var(--t4) 300px, var(--t3) 400px, var(--t2) 500px, var(--t1) 600px, var(--t7) 700px);
+    -webkit-mask-image: repeating-linear-gradient(65deg, transparent 0, #000 175px, transparent 350px);
+            mask-image: repeating-linear-gradient(65deg, transparent 0, #000 175px, transparent 350px);
+    opacity: .28;
+    animation: drift-b 70s linear infinite;
+  }
+  @keyframes drift-a { to { transform: translate3d(634.4px, 295.8px, 0); } }
+  @keyframes drift-b { from { transform: translate3d(634.4px, -295.8px, 0); } to { transform: translate3d(0, 0, 0); } }
+  @media (prefers-reduced-motion: reduce) { html::before, body::after { animation: none; } }
   body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 var(--sans); }
   a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
   .wrap { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1rem 2rem; }
 
   header { padding: 0 .25rem 0.1rem; }
-  h1 { font: 600 clamp(2.2rem, 7vw, 3.2rem)/1.1 var(--serif); letter-spacing: -.02em; margin: 0 0 .6rem; }
+  .head-row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0 0 .6rem; }
+  h1 { font: 600 clamp(2.2rem, 7vw, 3.2rem)/1.1 var(--serif); letter-spacing: -.02em; margin: 0; }
+  .socials { display: flex; gap: .5rem; flex: none; }
+  .social {
+    display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border-radius: 50%;
+    background: var(--card); color: var(--ink); box-shadow: var(--shadow-btn); transition: color .15s, transform .15s, box-shadow .15s;
+  }
+  .social svg { width: 1.3rem; height: 1.3rem; fill: currentColor; }
+  .social:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .social:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
   header p { font: 400 1.1rem/1.55 var(--serif); color: var(--muted); margin: 0 0 1.25rem; max-width: 30rem; }
   .btn {
     display: inline-block; padding: .7rem 1.2rem; border-radius: 999px;
     background: var(--accent); color: var(--on-accent); font-weight: 600; text-decoration: none;
+    box-shadow: var(--shadow-btn); transition: filter .15s, transform .15s, box-shadow .15s;
   }
-  .btn:hover { filter: brightness(1.1); }
+  .btn:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: var(--shadow-hover); }
+  .btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: .5rem; margin: 0 .25rem .5rem 0; }
+  .btn { text-align: center; }
+  .actions:empty { display: none; }
 
   .group { font: 600 1.15rem var(--serif); margin: 1.75rem .25rem .75rem; }
   .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
 
   /* Плитка (ссылка) и карточка (без ссылки) — один и тот же вид */
   .tile, .card {
-    background: var(--card); color: inherit; border-radius: 20px; padding: 1rem 1.1rem 1.1rem;
+    background: color-mix(in srgb, var(--card) 80%, transparent); color: inherit; border-radius: 20px; padding: 1rem 1.1rem 1.1rem;
+    box-shadow: var(--shadow); transition: transform .15s, box-shadow .15s;
   }
+  .tile:hover, .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
   .tile {
     display: flex; flex-direction: column; justify-content: space-between; gap: 1.25rem;
     min-height: 9.5rem; text-decoration: none;
@@ -99,17 +149,18 @@
   .p-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
   .p-name { font: 600 1.05rem var(--serif); }
   .p-state { font-size: .85rem; font-weight: 600; color: var(--s); white-space: nowrap; }
-  .bar { height: .5rem; margin-top: .45rem; background: var(--line); border-radius: 999px; overflow: hidden; }
-  .bar > i { display: block; height: 100%; width: var(--w); background: var(--s); border-radius: 999px; }
+  .bar { height: .5rem; margin-top: .45rem; background: color-mix(in srgb, var(--line) 55%, transparent); border-radius: 999px; overflow: hidden; }
+  .bar > i { display: block; height: 100%; width: var(--w); background: var(--s); opacity: .6; border-radius: 999px; }
   .p-note { margin-top: .35rem; font-size: .88rem; color: var(--muted); }
   .active { --s: var(--c-live); } .frozen { --s: var(--c-frozen); } .cancelled { --s: var(--c-cancel); }
   .legend { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin-top: 1.1rem; padding-top: .9rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); }
   .legend span::before { content: ""; display: inline-block; width: .6rem; height: .6rem; margin-right: .4rem; border-radius: 50%; background: var(--s); }
 
   /* Музыка: сюда попадает код встраивания Apple Music */
-  .embeds iframe { display: block; width: 100% !important; max-width: 100% !important; margin: 0 0 .75rem; border: 0; border-radius: 16px !important; }
+  .embeds iframe { display: block; width: 100% !important; max-width: 100% !important; margin: 0 0 .75rem; border: 0; border-radius: 16px !important; box-shadow: var(--shadow); transition: transform .15s, box-shadow .15s; }
+  .embeds iframe:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
 
-  @media (prefers-reduced-motion: reduce) { .tile .name::after { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .tile, .card, .btn, .social, .embeds iframe, .tile .name::after { transition: none; } .tile:hover, .card:hover, .btn:hover, .social:hover, .embeds iframe:hover { transform: none; } }
   @media (max-width: 26rem) { .big { font-size: 1.35rem; } .tile, .card { padding: .9rem; } }
 
   footer { margin: 2.5rem .25rem 0; color: var(--muted); font-size: .9rem; }
@@ -118,8 +169,17 @@
 <body>
 <div class="wrap">
   <header>
-    <h1 id="name">MuckMson</h1>
+    <div class="head-row">
+      <h1 id="name">MuckMson</h1>
+      <nav class="socials" aria-label="Соцсети">
+        <!-- TODO: замени ТВОЙ-НИК на свой ник в GitHub -->
+        <a class="social" href="https://github.com/ТВОЙ-НИК" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </a>
+      </nav>
+    </div>
     <p id="about"></p>
+    <div class="actions" id="actions"></div>
   </header>
 
   <div id="app"></div>
@@ -212,6 +272,13 @@
       document.getElementById("name").textContent = d.name;
       document.getElementById("foot-name").textContent = d.name;
       document.getElementById("about").textContent = d.about;
+
+      var actions = document.getElementById("actions");
+      (d.buttons || []).forEach(function (b) {
+        var a = el("a", "btn", b.label);
+        a.href = b.href || "#";
+        actions.appendChild(a);
+      });
 
 
       var app = document.getElementById("app");
