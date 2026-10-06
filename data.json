@@ -2,7 +2,7 @@
   "name": "MuckMson",
   "about": "Дурачок с макбуком",
   "buttons": [
-    { "label": "Стихи", "href": "https://t.me/muckpoem" },
+    { "label": "Стихи", "href": "poems.html" },
     { "label": "Mucking Games", "href": "https://t.me/muckinggames" },
     { "label": "Написать мне", "href": "https://t.me/muckmson" }
   ],

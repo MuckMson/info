@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#2a3038" media="(prefers-color-scheme: dark)">
+<title>MuckMson — стихи</title>
+<meta name="description" content="Стихи MuckMson.">
+<meta name="author" content="MuckMson">
+<meta property="og:title" content="MuckMson — стихи">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --card: #ffffff;
+    --ink: #14181f;
+    --muted: #596273;
+    --line: #d5dae1;
+    --accent: #f4fffe;
+    --on-accent: #705757;
+    --c-poem: #b5416a;
+    --shadow: 0 6px 18px rgba(20,24,31,.14), 0 1px 3px rgba(20,24,31,.10);
+    --shadow-hover: 0 10px 24px rgba(20,24,31,.20), 0 2px 5px rgba(20,24,31,.12);
+    --shadow-btn: 0 3px 10px rgba(20,24,31,.18), 0 1px 2px rgba(20,24,31,.12);
+    --serif: "Literata", Georgia, "Times New Roman", serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color-scheme: light dark;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #2a3038; --card: #373f4a; --ink: #eef1f5; --muted: #a9b3c1; --line: #4a5461; --accent: #324b48; --on-accent: #f1f8ff;
+      --c-poem: #f08aae;
+      --shadow: 0 6px 18px rgba(0,0,0,.32), 0 1px 3px rgba(0,0,0,.25);
+      --shadow-hover: 0 10px 24px rgba(0,0,0,.40), 0 2px 5px rgba(0,0,0,.3);
+      --shadow-btn: 0 3px 10px rgba(0,0,0,.38), 0 1px 2px rgba(0,0,0,.3);
+    }
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  html { background: var(--bg); }
+  body { position: relative; margin: 0; color: var(--ink); font: 17px/1.5 var(--sans); }
+  a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .wrap { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1rem 2rem; }
+
+  header { padding: 0 .25rem .1rem; }
+  h1 { font: 600 clamp(2.2rem, 7vw, 3.2rem)/1.1 var(--serif); letter-spacing: -.02em; margin: 0 0 .6rem; }
+  h1 a { color: inherit; text-decoration: none; }
+  header p { font: 400 1.1rem/1.55 var(--serif); color: var(--muted); margin: 0 0 1.25rem; max-width: 30rem; }
+  .btn {
+    display: inline-block; padding: .7rem 1.2rem; border-radius: 999px; text-align: center;
+    background: var(--accent); color: var(--on-accent); font-weight: 600; text-decoration: none;
+    box-shadow: var(--shadow-btn); transition: filter .15s, transform .15s, box-shadow .15s;
+  }
+  .btn:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: var(--shadow-hover); }
+  .actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: .5rem; margin: 0 .25rem .5rem 0; }
+
+  .group { font: 600 1.15rem var(--serif); margin: 1.75rem .25rem .75rem; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+  .poem-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; align-items: start; }
+  .poem-column { display: flex; flex-direction: column; gap: .75rem; min-width: 0; }
+  .poem-column .tile { width: 100%; }
+
+  .tile, .card {
+    background: color-mix(in srgb, var(--card) 85%, transparent); color: inherit; border-radius: 20px; padding: 1rem 1.1rem 1.1rem;
+    box-shadow: var(--shadow); transition: transform .15s, box-shadow .15s;
+  }
+  .tile:hover, .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+  .tile { display: flex; flex-direction: column; justify-content: flex-start; gap: 1.25rem; min-height: 9.5rem; text-decoration: none; }
+  .tile.compact { min-height: 6.5rem; }
+  .tile:hover .name::after { transform: translateX(3px); }
+  .name { display: flex; align-items: center; gap: .5rem; font-weight: 600; font-size: .98rem; color: var(--c); }
+  .name::before { content: ""; width: .7rem; height: .7rem; border-radius: 50%; background: var(--c); flex: none; }
+  .name-text { min-width: 0; overflow-wrap: anywhere; }
+  .date { margin-left: auto; flex: none; color: var(--muted); font: 400 .82rem/1 var(--sans); white-space: nowrap; }
+  .tile .name::after { content: "›"; margin-left: .7rem; color: var(--muted); font-size: 1.3rem; line-height: 1; transition: transform .15s; }
+  .tile.prev .name::after { content: none; }
+  .tile.prev .name::before { content: "‹"; width: auto; height: auto; background: none; color: var(--muted); font-size: 1.3rem; line-height: 1; }
+  .quote { display: block; font: italic 400 1.1rem/1.55 var(--serif); white-space: pre-line; overflow-wrap: anywhere; }
+  .big { display: block; font: 600 1.25rem/1.2 var(--serif); letter-spacing: -.01em; overflow-wrap: anywhere; }
+  .poem { --c: var(--c-poem); }
+  .tile.next { text-align: right; }
+  .tile.next .name { flex-direction: row; }
+
+  /* Страница одного стиха */
+  .poem-card, .poem-card:hover { transform: none; box-shadow: var(--shadow); padding: 1.6rem 1.5rem 1.7rem; }
+  .poem-title {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    column-gap: 1rem;
+    font: 600 clamp(1.6rem, 5vw, 2.1rem)/1.2 var(--serif);
+    letter-spacing: -.01em;
+    margin: 0 0 1.4rem;
+  }
+  .poem-title-text { min-width: 0; overflow-wrap: anywhere; }
+  .poem-date {
+    justify-self: end;
+    color: var(--muted);
+    font: 400 .55em/1.2 var(--serif);
+    white-space: nowrap;
+  }
+  .stanza { font: 400 1.2rem/1.7 var(--serif); margin: 0 0 1.4rem; white-space: pre-wrap; overflow-wrap: anywhere; max-width: 36rem; }
+  .stanza:last-child { margin-bottom: 0; }
+  .note { font: 400 1.05rem/1.65 var(--serif); margin: 0; }
+  .pager { margin-top: .75rem; }
+
+  @media (prefers-reduced-motion: reduce) { .tile, .card, .btn, .tile .name::after { transition: none; } .tile:hover, .card:hover, .btn:hover { transform: none; } }
+  @media (max-width: 26rem) {
+    .poem-grid { grid-template-columns: 1fr; }
+    .tile, .card { padding: .9rem; }
+    .poem-card, .poem-card:hover { padding: 1.2rem 1rem 1.3rem; }
+    .stanza { font-size: 1.1rem; }
+    .poem-title {
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: .6rem;
+      align-items: baseline;
+    }
+  }
+
+  footer { margin: 2.5rem .25rem 0; color: var(--muted); font-size: .9rem; }
+
+  /* Размытый анимированный фон в цветах флага */
+  .aurora { position: absolute; top: 0; left: 0; width: 100%; z-index: -1; overflow: hidden; pointer-events: none; contain: paint;
+    --kc: 1.3; --kw: 1; --va: .6; --wash: .16; }
+  .aurora > * { position: absolute; will-change: transform; }
+
+  /* Два больших «полотна-флага»: размытые полосы качаются навстречу друг другу и плетут узор */
+  .aurora b {
+    left: 50%; top: 50%; width: 170vmax; height: 170vmax; margin: -85vmax 0 0 -85vmax;
+    background: linear-gradient(180deg, #078d70 0 13%, #26ceaa 13% 26%, #98e8c1 26% 39%, #ffffff 39% 61%, #7bade2 61% 74%, #5049cc 74% 87%, #3d1a78 87% 100%);
+    filter: blur(64px); opacity: calc(.42 * var(--kc));
+    animation: sheet 74s ease-in-out infinite alternate;
+  }
+  .aurora b.two {
+    background: linear-gradient(115deg, #3d1a78 0 13%, #5049cc 13% 26%, #7bade2 26% 39%, #ffffff 39% 61%, #98e8c1 61% 74%, #26ceaa 74% 87%, #078d70 87% 100%);
+    opacity: calc(.24 * var(--kc));
+    animation: sheet-rev 96s ease-in-out infinite alternate;
+  }
+
+  /* Живые пятна: каждое плывёт по своей траектории, меняет форму и «дышит» */
+  .aurora i {
+    width: var(--s); height: var(--s); left: var(--x); top: var(--y);
+    background: var(--b); filter: blur(70px);
+    --o: .55; --op: calc(var(--o) * var(--kc)); opacity: var(--op);
+    border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+    animation:
+      var(--path) var(--t) ease-in-out var(--d, 0s) infinite alternate,
+      morph calc(var(--t) * .6) ease-in-out var(--d, 0s) infinite alternate,
+      breathe calc(var(--t) * .35) ease-in-out var(--d, 0s) infinite;
+  }
+  .aurora i.w { --op: calc(var(--o) * var(--kw)); }
+  .aurora i:nth-of-type(1) { --b: #078d70; --s: 62vmax; --x: -18vw; --y: -20vh; --t: 14s; --path: drift-a; }
+  .aurora i:nth-of-type(2) { --b: #26ceaa; --s: 54vmax; --x: 50vw;  --y: -18vh; --t: 12s; --path: drift-b; --d: -7s; }
+  .aurora i:nth-of-type(3) { --b: #98e8c1; --s: 50vmax; --x: -8vw;  --y: 22vh;  --t: 10s; --path: drift-c; --d: -14s; }
+  .aurora i:nth-of-type(4) { --b: #7bade2; --s: 52vmax; --x: 55vw;  --y: 38vh;  --t: 9s; --path: drift-a; --d: -21s; }
+  .aurora i:nth-of-type(5) { --b: #5049cc; --s: 58vmax; --x: -20vw; --y: 60vh;  --t: 7s; --path: drift-b; --d: -11s; }
+  .aurora i:nth-of-type(6) { --b: #3d1a78; --s: 56vmax; --x: 48vw;  --y: 68vh;  --t: 15s; --path: drift-c; --d: -26s; }
+  .aurora i:nth-of-type(7) { --b: #d8f5f4; --s: 2vmax; --x: 18vw;  --y: 10vh;  --t: 23s; --path: drift-b; --d: -5s;  --o: .7; }
+
+  /* Белая вуаль: два мягких блика, которые тоже медленно двигаются */
+  .aurora::after {
+    content: ""; position: absolute; inset: -20%; z-index: 1;
+    background:
+      radial-gradient(ellipse 55% 45% at 28% 22%, rgba(255,255,255,var(--va)), transparent 70%),
+      radial-gradient(ellipse 50% 50% at 78% 78%, rgba(255,255,255,calc(var(--va) * .75)), transparent 70%),
+      linear-gradient(rgba(255,255,255,var(--wash)), rgba(255,255,255,var(--wash)));
+    /* Белая вуаль остаётся неподвижной, чтобы не было заметного поворота. */
+    animation: none;
+    transform: none;
+  }
+  /* Лёгкое зерно, чтобы градиенты не «ступенчатили» */
+  .aurora::before {
+    content: ""; position: absolute; inset: 0; z-index: 2; opacity: .07; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  0 0 0 1.2 -.2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  @keyframes sheet     { 0% { transform: rotate(-30deg) scale(1); }    50% { transform: rotate(6deg) scale(1.12); }   100% { transform: rotate(34deg) scale(.96); } }
+  @keyframes sheet-rev { 0% { transform: rotate(40deg) scale(1.05); }  50% { transform: rotate(-4deg) scale(.92); }   100% { transform: rotate(-36deg) scale(1.1); } }
+  @keyframes drift-a { 0% { transform: translate(0,0) scale(1) rotate(0); }       33% { transform: translate(18vw,-8vh) scale(1.15) rotate(60deg); }  66% { transform: translate(-6vw,16vh) scale(.88) rotate(140deg); }  100% { transform: translate(12vw,6vh) scale(1.08) rotate(220deg); } }
+  @keyframes drift-b { 0% { transform: translate(0,0) scale(1) rotate(0); }       30% { transform: translate(-16vw,10vh) scale(1.2) rotate(-70deg); } 65% { transform: translate(8vw,-12vh) scale(.9) rotate(-150deg); }  100% { transform: translate(-10vw,-4vh) scale(1.1) rotate(-240deg); } }
+  @keyframes drift-c { 0% { transform: translate(0,0) scale(1) rotate(0); }       40% { transform: translate(14vw,14vh) scale(.85) rotate(90deg); }   70% { transform: translate(-12vw,-6vh) scale(1.22) rotate(170deg); } 100% { transform: translate(6vw,-14vh) scale(1) rotate(260deg); } }
+  @keyframes morph {
+    0%   { border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%; }
+    33%  { border-radius: 61% 39% 45% 55% / 55% 62% 38% 45%; }
+    66%  { border-radius: 35% 65% 58% 42% / 63% 38% 62% 37%; }
+    100% { border-radius: 55% 45% 38% 62% / 38% 57% 43% 62%; }
+  }
+  @keyframes breathe { 0%, 100% { opacity: calc(var(--op) * .6); } 50% { opacity: var(--op); } }
+  @keyframes veil { 0% { transform: translate(0,0) rotate(0); } 50% { transform: translate(8%,-6%) rotate(12deg); } 100% { transform: translate(-6%,8%) rotate(-8deg); } }
+
+  @media (prefers-color-scheme: dark) { .aurora { --kc: .42; --kw: .16; --va: .06; --wash: 0; background: var(--bg); } .aurora::before { opacity: .09; } }
+  @media (max-width: 40rem) { .aurora i { filter: blur(48px); } .aurora b { filter: blur(44px); } }
+  @media (prefers-reduced-motion: reduce) { .aurora *, .aurora::after { animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="aurora" aria-hidden="true"><b></b><b class="two"></b><i></i><i></i><i></i><i></i><i></i><i></i><i class="w"></i><i class="w"></i><i class="w"></i></div>
+<script>
+  (function () {
+    var bg = document.querySelector('.aurora');
+    if (!bg) return;
+    function sizeAurora() {
+      bg.style.height = Math.max(document.documentElement.scrollHeight, window.innerHeight) + 'px';
+    }
+    sizeAurora();
+    window.addEventListener('resize', sizeAurora, { passive: true });
+    if (window.ResizeObserver) {
+      new ResizeObserver(sizeAurora).observe(document.body);
+    }
+  }());
+</script>
+<div class="wrap">
+  <header>
+    <h1><a href="poems.html">Стихи</a></h1>
+    <p id="about">Свежие стихи выше</p>
+    <div class="actions" id="actions"></div>
+  </header>
+
+  <div id="app"></div>
+
+  <footer>© <span id="year"></span> MuckMson</footer>
+</div>
+
+<script>
+  var CHANNEL = "https://t.me/muckpoem"; // канал со стихами
+  var HOME = "index.html";               // главная страница
+  var BATCH = 10;                        // сколько файлов проверяем за раз
+  var MAX_N = 1000;                      // предел поиска poem_N.txt
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  function button(label, href) {
+    var a = el("a", "btn", label);
+    a.href = href;
+    return a;
+  }
+
+  // Формат poem_N.txt:
+  //   dd.mm.yyyy
+  //   Название
+  //
+  // Также принимается вариант:
+  //   Название
+  //   dd.mm.yyyy
+  //
+  // Старые файлы только с названием тоже продолжают работать.
+  function parse(n, raw) {
+    var lines = raw.replace(/^\uFEFF/, "").replace(/\r\n?/g, "\n").trim().split("\n");
+    var dateRe = /^\s*\d{2}\.\d{2}\.\d{4}\s*$/;
+    var date = "";
+    var first = "";
+
+    if (lines.length && dateRe.test(lines[0])) {
+      date = lines.shift().trim();
+      first = (lines.shift() || "").trim();
+    } else if (lines.length > 1 && dateRe.test(lines[1])) {
+      first = (lines.shift() || "").trim();
+      date = (lines.shift() || "").trim();
+    } else {
+      first = (lines.shift() || "").trim();
+    }
+
+    var untitled = /^[*\s]+$/.test(first);
+    var body = lines.join("\n").trim();
+    var stanzas = body ? body.split(/\n[ \t]*\n+/) : [];
+    var textLines = body.split("\n").filter(function (l) { return l.trim(); });
+
+    return {
+      n: n,
+      date: date,
+      untitled: untitled,
+      title: untitled ? "" : first,
+      label: untitled ? "* * *" : first,
+      stanzas: stanzas,
+      preview: textLines.slice(0, 3).join("\n") + (textLines.length > 3 ? " …" : "")
+    };
+  }
+
+  // null — файла нет; ошибка сети пробрасывается наверх
+  function loadPoem(n) {
+    return fetch("Poems/poem_" + n + ".txt").then(function (r) {
+      if (!r.ok) return null;
+      if ((r.headers.get("content-type") || "").indexOf("text/html") > -1) return null; // сервер отдал страницу вместо файла
+      return r.text().then(function (txt) { return txt.trim() ? parse(n, txt) : null; });
+    });
+  }
+
+  // Ищем poem_1.txt, poem_2.txt, … пачками по BATCH штук; останавливаемся, когда в пачке ничего нет
+  async function discover() {
+    var found = [];
+    for (var start = 1; start <= MAX_N; start += BATCH) {
+      var batch = [];
+      for (var i = 0; i < BATCH; i++) batch.push(loadPoem(start + i));
+      var res = (await Promise.all(batch)).filter(Boolean);
+      if (!res.length) break;
+      found = found.concat(res);
+    }
+    return found.sort(function (a, b) { return a.n - b.n; });
+  }
+
+  function href(p) { return "poems.html?p=" + p.n; }
+
+  function note(text) {
+    var c = el("div", "card");
+    c.appendChild(el("p", "note", text));
+    return c;
+  }
+
+  function renderList(poems, app) {
+    if (!poems.length) {
+      app.appendChild(note("Стихов нет... Хоть шаром покати..."));
+      return;
+    }
+
+    app.appendChild(el("h2", "group", "Все стихи (" + poems.length + ")"));
+
+    var grid = el("div", "poem-grid");
+    var left = el("div", "poem-column");
+    var right = el("div", "poem-column");
+
+    poems.slice().reverse().forEach(function (p, i) {
+      var a = el("a", "tile poem");
+      a.href = href(p);
+
+      var name = el("span", "name");
+      name.appendChild(el("span", "name-text", p.label));
+      if (p.date) name.appendChild(el("span", "date", p.date));
+      a.appendChild(name);
+      a.appendChild(el("span", "quote", p.preview));
+
+      (i % 2 === 0 ? left : right).appendChild(a);
+    });
+
+    grid.appendChild(left);
+    grid.appendChild(right);
+    app.appendChild(grid);
+  }
+
+  function renderPoem(poems, n, app) {
+    var idx = poems.findIndex(function (p) { return p.n === n; });
+    if (idx < 0) {
+      document.title = "404 - MuckMson";
+      app.appendChild(note("Такого стиха я пока не написал. Но всё может быть!"));
+      return;
+    }
+    var p = poems[idx];
+    document.title = (p.untitled ? "Стих № " + p.n : p.title) + " — MuckMson";
+
+    var card = el("article", "card poem-card");
+    if (!p.untitled) {
+      var poemTitle = el("h2", "poem-title");
+      poemTitle.appendChild(el("span", "poem-title-text", p.title));
+      if (p.date) poemTitle.appendChild(el("span", "poem-date", p.date));
+      card.appendChild(poemTitle);
+    }
+    p.stanzas.forEach(function (s) { card.appendChild(el("p", "stanza", s)); });
+    app.appendChild(card);
+
+    var prev = poems[idx - 1], next = poems[idx + 1];
+    if (prev || next) {
+      var pager = el("div", "grid pager");
+      [[prev, "prev", "Предыдущий"], [next, "next", "Следующий"]].forEach(function (x) {
+        if (!x[0]) { pager.appendChild(el("span")); return; }
+        var a = el("a", "tile compact poem " + x[1]);
+        a.href = href(x[0]);
+        a.appendChild(el("span", "name", x[2]));
+        a.appendChild(el("span", "big", x[0].label));
+        pager.appendChild(a);
+      });
+      app.appendChild(pager);
+    }
+  }
+
+  var param = new URLSearchParams(location.search).get("p");
+  var current = /^\d+$/.test(param || "") ? parseInt(param, 10) : null;
+
+  var actions = document.getElementById("actions");
+  if (current !== null) actions.appendChild(button("Все стихи", "poems.html"));
+  actions.appendChild(button("На главную", HOME));
+  actions.appendChild(button("Telegram-канал", CHANNEL));
+
+  var app = document.getElementById("app");
+  discover().then(function (poems) {
+    if (current !== null) renderPoem(poems, current, app);
+    else renderList(poems, app);
+  }).catch(function () {
+    app.appendChild(note("Произошел сбой при загрузке стихов :("));
+  });
+</script>
+</body>
+</html>
