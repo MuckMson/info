@@ -49,8 +49,7 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --embed-bg: var(--card);
-      --bg: #2a3038; --card: #373f4a; --ink: #eef1f5; --muted: #a9b3c1; --line: #4a5461; --accent: #324b48; --on-accent: #f1f8ff;
+            --bg: #2a3038; --card: #373f4a; --ink: #eef1f5; --muted: #a9b3c1; --line: #4a5461; --accent: #324b48; --on-accent: #f1f8ff;
       --c-game: #6fd08c; --c-poem: #f08aae; --c-link: #9aa4b2;
       --c-live: #e8b56a; --c-frozen: #7ab4ff; --c-cancel: #ff7f75;
       --shadow: 0 6px 18px rgba(0,0,0,.32), 0 1px 3px rgba(0,0,0,.25);
@@ -126,14 +125,7 @@
   .legend { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin-top: 1.1rem; padding-top: .9rem; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); }
   .legend span::before { content: ""; display: inline-block; width: .6rem; height: .6rem; margin-right: .4rem; border-radius: 50%; background: var(--s); }
 
-  /* Музыка: сюда попадает код встраивания Apple Music */
-  .embeds iframe { display: block; width: 100% !important; max-width: 100% !important; margin: 0; border: 0; border-radius: 16px !important; }
-  /* Обёртка: поверх плеера лежит слой цвета карточки в режиме lighten — тёмный фон плеера подтягивается к цвету карточек, текст и кнопки остаются чёткими */
-  .embed-wrap { position: relative; margin: 0 0 .75rem; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); transition: transform .15s, box-shadow .15s; }
-  .embed-wrap::after { content: ""; position: absolute; inset: 0; border-radius: 16px; background: var(--embed-bg, transparent); mix-blend-mode: lighten; pointer-events: none; }
-  .embed-wrap:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
-
-  @media (prefers-reduced-motion: reduce) { .tile, .card, .btn, .social, .embed-wrap, .tile .name::after { transition: none; } .tile:hover, .card:hover, .btn:hover, .social:hover, .embed-wrap:hover { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .tile, .card, .btn, .social, .tile .name::after { transition: none; } .tile:hover, .card:hover, .btn:hover, .social:hover { transform: none; } }
   @media (max-width: 26rem) { .big { font-size: 1.35rem; } .tile, .card { padding: .9rem; } }
 
   footer { margin: 2.5rem .25rem 0; color: var(--muted); font-size: .9rem; }
@@ -228,6 +220,7 @@
     }
   }());
 </script>
+<script src="player.js"></script>
 <div class="wrap">
   <header>
     <div class="head-row">
@@ -252,17 +245,8 @@
 </div>
 
 <!--
-  МУЗЫКА. Вставь сюда код встраивания из Apple Music (в Apple Music: «⋯» у песни или альбома →
-  «Поделиться» → «Скопировать код для встраивания»). Можно вставить несколько iframe подряд.
-  Раздел «Музыка» на сайте появится сам, как только внутри будет хотя бы один iframe.
-  Пока iframe нет, раздел скрыт.
+  МУЗЫКА: песни лежат в папке songs/, список — в songs/songs.json (его создаёт make-songs.js).
 -->
-<template id="music">
-  <!-- ВСТАВЬ КОД ВСТРАИВАНИЯ НИЖЕ -->
-<iframe allow="autoplay *; encrypted-media *;" frameborder="0" height="150" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/tr/album/dark-night-kara/1678598288?i=1678598645"></iframe>
-
-  <!-- ВСТАВЬ КОД ВСТРАИВАНИЯ ВЫШЕ -->
-</template>
 
 <!-- Аналитика без cookies. Зарегистрируйся на goatcounter.com, замени КОД и раскомментируй:
 <script data-goatcounter="https://КОД.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
@@ -424,32 +408,9 @@
         latestTile.querySelector(".quote").textContent = "Сбой при загрузке последнего стиха";
       });
 
-      var music = document.getElementById("music");
-      if (music && music.content.querySelector("iframe")) {
-        app.appendChild(el("h2", "group", "Музыка"));
-        var box = el("div", "embeds");
-        box.appendChild(music.content.cloneNode(true));
-        box.querySelectorAll("iframe").forEach(function (f) {
-          var w = el("div", "embed-wrap");
-          f.parentNode.insertBefore(w, f);
-          w.appendChild(f);
-        });
-        app.appendChild(box);
-
-        // Тема плеера Apple Music: передаём theme=dark/light прямо в адрес встраивания
-        var mq = window.matchMedia("(prefers-color-scheme: dark)");
-        var applyEmbedTheme = function () {
-          var dark = mq.matches;
-          box.querySelectorAll("iframe").forEach(function (f) {
-            var u = new URL(f.getAttribute("src"), location.href);
-            if (u.searchParams.get("theme") === (dark ? "dark" : "light")) return;
-            u.searchParams.set("theme", dark ? "dark" : "light");
-            f.setAttribute("src", u.toString());
-          });
-        };
-        applyEmbedTheme();
-        if (mq.addEventListener) mq.addEventListener("change", applyEmbedTheme);
-      }
+      var musicBox = el("div");
+      app.appendChild(musicBox);
+      if (window.MuckPlayer) MuckPlayer.ready.then(function () { MuckPlayer.mountCarousel(musicBox); });
 
       if (d.projects && d.projects.items.length) {
         app.appendChild(el("h2", "group", d.projects.title));
