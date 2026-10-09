@@ -131,7 +131,7 @@
   footer { margin: 2.5rem .25rem 0; color: var(--muted); font-size: .9rem; }
 
   /* Размытый анимированный фон в цветах флага */
-  .aurora { position: absolute; top: 0; left: 0; width: 100%; z-index: -1; overflow: hidden; pointer-events: none; contain: paint;
+  .aurora { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; pointer-events: none; contain: paint;
     --kc: 1.3; --kw: 1; --va: .6; --wash: .16; }
   .aurora > * { position: absolute; will-change: transform; }
 
@@ -206,20 +206,6 @@
 </head>
 <body>
 <div class="aurora" aria-hidden="true"><b></b><b class="two"></b><i></i><i></i><i></i><i></i><i></i><i></i><i class="w"></i><i class="w"></i><i class="w"></i></div>
-<script>
-  (function () {
-    var bg = document.querySelector('.aurora');
-    if (!bg) return;
-    function sizeAurora() {
-      bg.style.height = Math.max(document.documentElement.scrollHeight, window.innerHeight) + 'px';
-    }
-    sizeAurora();
-    window.addEventListener('resize', sizeAurora, { passive: true });
-    if (window.ResizeObserver) {
-      new ResizeObserver(sizeAurora).observe(document.body);
-    }
-  }());
-</script>
 <script src="player.js"></script>
 <div class="wrap">
   <header>
